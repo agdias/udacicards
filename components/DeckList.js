@@ -17,16 +17,26 @@ class DeckList extends React.Component {
         data: null
     }
 
-    static navigationOptions =  {
-        title: 'Flashcards',
-        tabBarIcon: () => <Entypo  color='gray' name={'text-document'} size={30} />
+    static navigationOptions = ({navigation}) => {
+        return {
+            title: 'DeckList',
+            tabBarIcon: () => <Entypo  color='gray' name={'text-document'} size={30} />,
+            headerTintColor: '#545454'
+
+        }
     }
 
+    // static navigationOptions =  ({
+    //     title: 'Flashcards',
+    //     tabBarIcon: () => <Entypo  color='gray' name={'text-document'} size={30} />
+    // })
+
  
-    onPress(item) {
-        console.log(item)
+    onPress(item, deckTitle) {
+        
         const { navigate } = this.props.navigation
-        navigate('Deck', {key: item})
+        const { data }  = this.state
+        navigate('Deck', {key: item, title: deckTitle})
     }
 
     componentDidMount() {
@@ -70,7 +80,7 @@ class DeckList extends React.Component {
                
                 renderItem={({item}) => (
                     <View style={styles.container}>
-                        <TouchableOpacity  onPress={() => this.onPress(item)} style={styles.touchable}>
+                        <TouchableOpacity  onPress={() => this.onPress(item, data[item].title)} style={styles.touchable}>
                             <Text style={styles.text}>{data[item].title}</Text>
                             <Text style={styles.text}>{`${data[item].questions.length} cards`}</Text>
                         </TouchableOpacity>
@@ -91,13 +101,13 @@ const styles = StyleSheet.create({
         flex:1,
         alignItems: 'stretch',
         justifyContent: 'center',
-        backgroundColor: '#696969'
+        backgroundColor: '#fdfdfd'
     },
 
     touchable: {
         margin: 20,
         padding: 30,
-        backgroundColor: '#f1f1f1',
+        backgroundColor: 'lightblue',
         borderRadius: 10
     },
     text: {

@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
     container: {
         flex:1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: '#fdfdfd'
     },
     btnDanger: {
         margin: 15,
