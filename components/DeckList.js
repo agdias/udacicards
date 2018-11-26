@@ -1,5 +1,6 @@
 import React from 'react'
-import { FlatList,
+import { AsyncStorage,
+         FlatList,
          StyleSheet, 
         TouchableOpacity, 
         View, 
@@ -8,7 +9,8 @@ import { Ionicons,
          MaterialCommunityIcons, 
          Entypo,
          EvilIcons } from '@expo/vector-icons'
-import { getDecks } from '../utils/api'
+import { getDecks, fetchDecks  } from '../utils/api'
+import FLASHCARDS_STORAGE_KEY from '../utils/api'
 
 class DeckList extends React.Component {
     state = {
@@ -17,7 +19,7 @@ class DeckList extends React.Component {
 
     static navigationOptions =  {
         title: 'Flashcards',
-        tabBarIcon: () => <Entypo color='tomato'  name={'text-document'} size={30} />
+        tabBarIcon: () => <Entypo  color='gray' name={'text-document'} size={30} />
     }
 
  
@@ -27,14 +29,37 @@ class DeckList extends React.Component {
         navigate('Deck', {key: item})
     }
 
+    componentDidMount() {
+       AsyncStorage.getItem('flashcards:deck')
+         .then((result) => {
+             this.setState(() => {
+                 return {
+                     data: JSON.parse(result)
+                 }  
+             })
+         })
+         
+    }
 
+    componentDidUpdate(prevState) {
+        const { data } = this.state
+      prevState.data  !== data &&
+
+        AsyncStorage.getItem('flashcards:deck')
+        .then((result) => {
+            this.setState(() => {
+                return {
+                    data: JSON.parse(result)
+                }  
+            })
+        })
+
+    }
 
     render() {
         const { navigate } = this.props.navigation
-        const data = getDecks()
-        Object.keys(data).map((deck) => {
-            console.log('Deck Name: ',data[deck].title)
-        })
+        // const data = getDecks()
+       const { data } = this.state
        
       
         return (
@@ -53,9 +78,6 @@ class DeckList extends React.Component {
                 keyExtractor={(item, index) => index.toString()}
                 />
             }
-            
-            
-            
           </View>
         )
     }

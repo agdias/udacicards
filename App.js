@@ -15,17 +15,23 @@ import WipeDecks from './components/WipeDecks'
 import Home from './components/Home'
 import DeckList from './components/DeckList'
 import Deck from './components/Deck'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import { decksReducer } from './redux/reducers'
 
- class HomeScreen extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-       
-        <Home />
-      </View>
-    );
-  }
-}
+//  class HomeScreen extends React.Component {
+//   render() {
+//     return (
+//       <Provider store={createStore(decksReducer)}>
+//         <View style={styles.container}>
+//           <Home />
+         
+         
+//         </View>
+//       </Provider>
+//     );
+//   }
+// }
 
 const TabNavigator = createBottomTabNavigator({
 
@@ -50,9 +56,7 @@ const AppNavigator = createStackNavigator({
   TabNavigator,
   Home: DeckList,
   Deck: Deck,
-  
- 
-
+  WipeDecks, WipeDecks
 })
 
 

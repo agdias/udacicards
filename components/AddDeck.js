@@ -11,7 +11,8 @@ import {
 
 } from 'react-native'
 import Home from './Home'
-import { FontAwesome } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'
+import FLASHCARDS_STORAGE_KEY from '../utils/api'
 
 
 
@@ -30,7 +31,7 @@ function  SubmitBtn({onPress})  {
 export default class AddDeck extends React.Component {
     static navigationOptions = {
         title: 'AddDeck',
-        tabBarIcon: () => <FontAwesome name="plus-square" size={30} color='tomato' />
+        tabBarIcon: () => <Ionicons name="ios-add-circle-outline" size={30} color='gray' />
     }
 
     state = {
@@ -41,23 +42,30 @@ export default class AddDeck extends React.Component {
 
    submit = () => {
     const { navigate } = this.props.navigation
-    const FLASHCARDS_STORAGE_KEY = "flashcards:deck"
-    const value = this.state.deck
-    this.saveDeckTitle(FLASHCARDS_STORAGE_KEY ,value)
-    navigate('Decks')
+
+    const { deck } = this.state
+    
+  
+    
+    this.saveDeckTitle(deck)
+    navigate('DeckList')
    
     
    }
 
-   saveDeckTitle = async  (key, value) => {
+   saveDeckTitle = async  (value) => {
        
     const id = this.getUUID()
-    return AsyncStorage.mergeItem('flashcards:deck', JSON.stringify({
-        [id]: {
-            title: value,
-            questions: []
+    const FLASHCARDS_STORAGE_KEY = 'flashcards:deck'
+    AsyncStorage.mergeItem(FLASHCARDS_STORAGE_KEY, JSON.stringify(
+        {
+            [id]: {
+                'title': value,
+                questions: []
+            }
         }
-    })).then((error) => console.log(error))
+    ), () => (err,result) => console.log('Error', error)
+    )
     
   }
 
@@ -65,12 +73,14 @@ export default class AddDeck extends React.Component {
 
     const uuidv1 = require('uuid/v1')
     return uuidv1().substr(0,8)
+   
 
 }
 
    
     render() {
        const { navigate } = this.props.navigation
+       
         return (
             <View style={styles.container}>
            

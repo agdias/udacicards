@@ -1,3 +1,5 @@
+import { AsyncStorage } from 'react-native'
+export const FLASHCARDS_STORAGE_KEY = 'flashcards:deck'
 const decks = {
     'React': {
         title: 'React',
@@ -53,4 +55,23 @@ const decks = {
 export const  getDecks = () => {
     return decks
 }
+
+export const fetchDecks =  async () => {
+    try {
+        const value = await AsyncStorage.getItem(FLASHCARDS_STORAGE_KEY)
+        if ( value !== null) {
+            return (value)
+        }
+        
+
+    } catch (error) {
+        console.log("Error retrieving data")
+    }
+    
+}
+
+export const deleteAll = (key) => {
+    AsyncStorage.removeItem(key)
+             .then((log) => console.log(log))
+ }
 
