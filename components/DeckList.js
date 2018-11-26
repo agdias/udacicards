@@ -72,6 +72,7 @@ class DeckList extends React.Component {
                     <View style={styles.container}>
                         <TouchableOpacity  onPress={() => this.onPress(item)} style={styles.touchable}>
                             <Text style={styles.text}>{data[item].title}</Text>
+                            <Text style={styles.text}>{`${data[item].questions.length} cards`}</Text>
                         </TouchableOpacity>
                     </View>
                 )}
@@ -90,20 +91,20 @@ const styles = StyleSheet.create({
         flex:1,
         alignItems: 'stretch',
         justifyContent: 'center',
-        backgroundColor: 'whitesmoke'
+        backgroundColor: '#696969'
     },
 
     touchable: {
         margin: 20,
         padding: 30,
-        backgroundColor: 'darkgray',
+        backgroundColor: '#f1f1f1',
         borderRadius: 10
     },
     text: {
         textAlign: 'center',
         fontSize: 20,
         
-        color: 'white'
+        color: '#545454'
     }
 
 
